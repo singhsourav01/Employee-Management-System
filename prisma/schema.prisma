@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  uuid     String   @id @default(uuid()) @map("_id")
+  name     String
+  password String
+  employees Employee[] 
+}
+
+model Employee {
+  id         String   @id @default(uuid()) @map("_id")
+  name       String
+  email      String   @unique
+  phoneNumber String
+  designation String
+  gender     String
+  course     String
+  image      String
+  adminId    String
+  admin      Admin    @relation(fields: [adminId], references: [uuid])
+}
